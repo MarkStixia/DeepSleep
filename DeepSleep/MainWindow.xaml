@@ -407,7 +407,7 @@
                         <TextBlock Margin="0 35 0 15" FontWeight="Bold" Text="Тип выключения" Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Bottom" FontSize="14"/>
                         <StackPanel Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Center">
                             <RadioButton Uid="0" IsChecked="True" x:Name="HybernationTimerRB" Style="{DynamicResource RadioButtonStyle1}" Content="Гибернация" Foreground="White" Checked="HybernationTimerRB_Checked"/>
-                            <RadioButton Uid="1" x:Name="ShutdownTimerRB"  Content="Выключение" Foreground="White" Margin="0 15" Style="{DynamicResource RadioButtonStyle1}" />
+                            <RadioButton Uid="1" x:Name="ShutdownTimerRB" Content="Выключение" Foreground="White" Margin="0 15" Style="{DynamicResource RadioButtonStyle1}" Checked="HybernationTimerRB_Checked"/>
                         </StackPanel>
                     </StackPanel>
                     <StackPanel x:Name="TimerCountdownPanel" Visibility="Hidden" Grid.Row="1" VerticalAlignment="Center">

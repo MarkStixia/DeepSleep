@@ -363,7 +363,16 @@ namespace DeepSleep
             }
             if (settingsDictionary.TryGetValue("TimerMode", out string readTimerMode))
             {
-              
+                HybernationTimerRB.IsChecked = false;
+                ShutdownTimerRB.IsChecked = false;
+                if (readTimerMode == "0")
+                {
+                    HybernationTimerRB.IsChecked = true;
+                }
+                else
+                {
+                    ShutdownTimerRB.IsChecked = true;
+                }
             }
             SaveSettings();
         }
