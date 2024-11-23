@@ -155,10 +155,18 @@ namespace DeepSleep
                 }
             }
         }
+        private void NormalizeTimeFormat(object sender, KeyboardFocusChangedEventArgs e)
+        {
+            System.Windows.Controls.TextBox tb = ((System.Windows.Controls.TextBox)sender);
+            if (tb.Text.Length == 1)
+            {
+                tb.Text = "0" + tb.Text;
+            }
+        }
         #endregion
 
         #region Settings Functions
-   
+
         private void SaveSettings()
         {
             CheckSettingsFile();
@@ -778,14 +786,7 @@ namespace DeepSleep
 
         #endregion
 
-        private void NormalizeTimeFormat(object sender, KeyboardFocusChangedEventArgs e)
-        {
-            System.Windows.Controls.TextBox tb = ((System.Windows.Controls.TextBox)sender);
-            if (tb.Text.Length == 1)
-            {
-             tb.Text = "0" + tb.Text;
-            }
-        }
+   
     }
 }
 
