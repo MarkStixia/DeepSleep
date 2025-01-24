@@ -20,7 +20,7 @@ namespace DeepSleep
     public partial class MainWindow : Window
     {
         //Settings and temp variables
-        private List<string> poweroffvariants = new List<string> { "Hybernation", "Shutdown" };
+        private List<string> poweroffvariants = new List<string> { "Hibernation", "Shutdown" };
         private int selectedPowerOffMode = 0;
         private string lastTime = "";
         private string settingsPath = $"{Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments)}/Deep Sleep/config.cfg";
@@ -38,6 +38,7 @@ namespace DeepSleep
         private bool isShutdowned = false;
 
         //Initializing variables
+        ContextMenu contextMenu;
         NotificationWindow notification = null;
         private NotifyIcon m_notifyIcon;
         private System.Timers.Timer mainLogicTimer;
@@ -60,10 +61,7 @@ namespace DeepSleep
             m_notifyIcon.Text = "Deep Sleep";
 
             m_notifyIcon.MouseClick += new System.Windows.Forms.MouseEventHandler(m_notifyIcon_Click);
-            ContextMenu contextMenu = new ContextMenu();
-            MenuItem closeMenuItem = new MenuItem("Закрыть", Close);
-            contextMenu.MenuItems.Add(closeMenuItem);
-            m_notifyIcon.ContextMenu = contextMenu;
+
             if (settings["TrayStart"] == "On")
             {
                 Hide();
@@ -92,7 +90,7 @@ namespace DeepSleep
                         lastTime = timeNow;
                         switch (poweroffvariants[selectedPowerOffMode])
                         {
-                            case "Hybernation":
+                            case "Hibernation":
                                 isShutdowned = true;
                                 PowerShellCommand("shutdown /h");
                                 is30mAlertShown = false;
@@ -359,7 +357,7 @@ namespace DeepSleep
                 }
 
             }
-            if(settingsDictionary.TryGetValue("TimerSeconds", out string readTimerSeconds))
+            if (settingsDictionary.TryGetValue("TimerSeconds", out string readTimerSeconds))
             {
                 int totalSeconds = int.Parse(readTimerSeconds);
                 int hours = totalSeconds / 3600;
@@ -382,6 +380,27 @@ namespace DeepSleep
                     ShutdownTimerRB.IsChecked = true;
                 }
             }
+            contextMenu = new ContextMenu();
+            MenuItem ExpandMenuItem = new MenuItem("Развернуть", Expand);
+            MenuItem PowerOnMenuItem;
+            if (settings["PowerOn"] == "Off")
+            {
+                PowerOnMenuItem = new MenuItem("Активировать", SetPowerOn);
+            }
+            else
+            {
+                PowerOnMenuItem = new MenuItem("Деактивировать", SetPowerOn);
+            }
+
+            MenuItem HibernationMenuItem = new MenuItem("Гибернация", Hibernation);
+            MenuItem PoweroffMenuItem = new MenuItem("Выключение", PowerOff);
+            MenuItem closeMenuItem = new MenuItem("Закрыть", Close);
+            contextMenu.MenuItems.Add(ExpandMenuItem);
+            contextMenu.MenuItems.Add(PowerOnMenuItem);
+            contextMenu.MenuItems.Add(HibernationMenuItem);
+            contextMenu.MenuItems.Add(PoweroffMenuItem);
+            contextMenu.MenuItems.Add(closeMenuItem);
+            m_notifyIcon.ContextMenu = contextMenu;
             SaveSettings();
         }
         private void CheckSettingsFile()
@@ -406,6 +425,8 @@ namespace DeepSleep
             process.StartInfo.FileName = "powershell.exe";
             process.StartInfo.Arguments = $"-Command \"{command}\"";
             process.StartInfo.CreateNoWindow = true;
+            process.StartInfo.UseShellExecute = false; 
+            process.StartInfo.WindowStyle = ProcessWindowStyle.Hidden; 
             process.Start();
         }
         private void AddToStartup()
@@ -456,12 +477,44 @@ namespace DeepSleep
         {
             Environment.Exit(0);
         }
+        private void Expand(object sender, EventArgs e)
+        {
+            Show();
+            WindowState = m_storedWindowState;
+            Activate();
+            Topmost = true;
+            Topmost = false;
+        }
+        private void Hibernation(object sender, EventArgs e)
+        {
+            isShutdowned = true;
+            PowerShellCommand("shutdown /h");
+            is30mAlertShown = false;
+            is5mAlertShown = false;
+            is1mAlertShown = false;
+        }
+        private void PowerOff(object sender, EventArgs e)
+        {
+            isShutdowned = true;
+            PowerShellCommand("shutdown /s /f /t 0");
+            is30mAlertShown = false;
+            is5mAlertShown = false;
+            is1mAlertShown = false;
+        }
+        private void SetPowerOn(object sender, EventArgs e)
+        {
+            SleepOnToggle.Tag = SleepOnToggle.Tag.ToString() == "On" ? "Off" : "On";
+            settings["PowerOn"] = SleepOnToggle.Tag.ToString() == "On" ? "On" : "Off";
+            SaveSettings();
+            SetSettings(settings);
+        }
         void m_notifyIcon_Click(object sender, System.Windows.Forms.MouseEventArgs e)
         {
             if (e.Button == MouseButtons.Left)
             {
                 Show();
                 WindowState = m_storedWindowState;
+                Activate();
             }
         }
         void CheckTrayIcon()
@@ -717,17 +770,17 @@ namespace DeepSleep
                     UpdateTimerTime();
                     timerSecondLeft--;
                 }
-                else if(timerSecondLeft == 0 && !isShutdowned)
+                else if (timerSecondLeft == 0 && !isShutdowned)
                 {
                     switch (poweroffvariants[selectedTimerMode])
                     {
-                        case "Hybernation":
-                             isShutdowned = true;
-                             PowerShellCommand("shutdown /h");
+                        case "Hibernation":
+                            isShutdowned = true;
+                            PowerShellCommand("shutdown /h");
                             break;
                         case "Shutdown":
-                             isShutdowned = true;
-                             PowerShellCommand("shutdown /s /f /t 0");
+                            isShutdowned = true;
+                            PowerShellCommand("shutdown /s /f /t 0");
                             break;
                     }
                     SaveSettings();
@@ -786,7 +839,7 @@ namespace DeepSleep
 
         #endregion
 
-   
+
     }
 }
 
