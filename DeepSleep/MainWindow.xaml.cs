@@ -30,7 +30,7 @@ namespace DeepSleep
         private bool isDelayedTimerPaused = false;
         private int timerSecondLeft = 0;
         private int selectedTimerMode = 0;
-
+        private int additionalTime = 0;
         //Alerts and shutdown bools
         private bool is30mAlertShown = false;
         private bool is5mAlertShown = false;
@@ -59,7 +59,6 @@ namespace DeepSleep
             Top = (screenHeight - Height) / 2;
             ToolTip toolTip = new ToolTip();
             m_notifyIcon.Text = "Deep Sleep";
-
             m_notifyIcon.MouseClick += new System.Windows.Forms.MouseEventHandler(m_notifyIcon_Click);
 
             if (settings["TrayStart"] == "On")
@@ -119,7 +118,7 @@ namespace DeepSleep
 
                         if (difference.TotalMinutes <= 30 && difference.TotalMinutes > 25 && !is30mAlertShown)
                         {
-                            notification = new NotificationWindow("До выключения менее 30 мин");
+                            notification = new NotificationWindow("До выключения осталось менее 30 мин");
                             notification.Show();
                             is30mAlertShown = true;
                             is5mAlertShown = false;
@@ -127,14 +126,14 @@ namespace DeepSleep
                         }
                         else if (difference.TotalMinutes <= 5 && difference.TotalMinutes > 2 && !is5mAlertShown)
                         {
-                            notification = new NotificationWindow("До выключения менее 5 мин");
+                            notification = new NotificationWindow("До выключения осталось менее 5 мин");
                             notification.Show();
                             is5mAlertShown = true;
                             is1mAlertShown = false;
                         }
                         else if (difference.TotalSeconds <= 60 && difference.TotalSeconds > 0 && !is1mAlertShown)
                         {
-                            notification = new NotificationWindow("До выключения менее 1 мин");
+                            notification = new NotificationWindow("До выключения осталось менее 1 мин");
                             notification.Show();
                             is1mAlertShown = true;
                         }
@@ -160,6 +159,10 @@ namespace DeepSleep
             {
                 tb.Text = "0" + tb.Text;
             }
+        }
+        public void AddTime(int minutes)
+        {
+            additionalTime += minutes;
         }
         #endregion
 
@@ -382,14 +385,17 @@ namespace DeepSleep
             }
             contextMenu = new ContextMenu();
             MenuItem ExpandMenuItem = new MenuItem("Развернуть", Expand);
-            MenuItem PowerOnMenuItem;
-            if (settings["PowerOn"] == "Off")
+            MenuItem PowerOnMenuItem = new MenuItem("Деактивировать", SetPowerOn);
+            if (settings.ContainsKey("PowerOn"))
             {
-                PowerOnMenuItem = new MenuItem("Активировать", SetPowerOn);
-            }
-            else
-            {
-                PowerOnMenuItem = new MenuItem("Деактивировать", SetPowerOn);
+                if (settings["PowerOn"] == "Off")
+                {
+                    PowerOnMenuItem = new MenuItem("Активировать", SetPowerOn);
+                }
+                else
+                {
+                    PowerOnMenuItem = new MenuItem("Деактивировать", SetPowerOn);
+                }
             }
 
             MenuItem HibernationMenuItem = new MenuItem("Гибернация", Hibernation);
@@ -425,8 +431,8 @@ namespace DeepSleep
             process.StartInfo.FileName = "powershell.exe";
             process.StartInfo.Arguments = $"-Command \"{command}\"";
             process.StartInfo.CreateNoWindow = true;
-            process.StartInfo.UseShellExecute = false; 
-            process.StartInfo.WindowStyle = ProcessWindowStyle.Hidden; 
+            process.StartInfo.UseShellExecute = false;
+            process.StartInfo.WindowStyle = ProcessWindowStyle.Hidden;
             process.Start();
         }
         private void AddToStartup()
@@ -603,6 +609,7 @@ namespace DeepSleep
         }
         private void Minimize_Click(object sender, RoutedEventArgs e)
         {
+            SetSettings(settings);
             WindowState = WindowState.Minimized;
         }
 
