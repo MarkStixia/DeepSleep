@@ -90,18 +90,12 @@ namespace DeepSleep
                         switch (poweroffvariants[selectedPowerOffMode])
                         {
                             case "Hibernation":
-                                isShutdowned = true;
+                                ShutdownResetFlags();
                                 PowerShellCommand("shutdown /h");
-                                is30mAlertShown = false;
-                                is5mAlertShown = false;
-                                is1mAlertShown = false;
                                 break;
                             case "Shutdown":
-                                isShutdowned = true;
+                                ShutdownResetFlags();
                                 PowerShellCommand("shutdown /s /f /t 0");
-                                is30mAlertShown = false;
-                                is5mAlertShown = false;
-                                is1mAlertShown = false;
                                 break;
                         }
                     }
@@ -118,7 +112,7 @@ namespace DeepSleep
 
                         if (difference.TotalMinutes <= 30 && difference.TotalMinutes > 25 && !is30mAlertShown)
                         {
-                            notification = new NotificationWindow("До выключения осталось менее 30 мин");
+                            notification = new NotificationWindow("До выключения осталось менее 30 мин", this);
                             notification.Show();
                             is30mAlertShown = true;
                             is5mAlertShown = false;
@@ -126,23 +120,23 @@ namespace DeepSleep
                         }
                         else if (difference.TotalMinutes <= 5 && difference.TotalMinutes > 2 && !is5mAlertShown)
                         {
-                            notification = new NotificationWindow("До выключения осталось менее 5 мин");
+                            notification = new NotificationWindow("До выключения осталось менее 5 мин", this);
                             notification.Show();
                             is5mAlertShown = true;
                             is1mAlertShown = false;
                         }
                         else if (difference.TotalSeconds <= 60 && difference.TotalSeconds > 0 && !is1mAlertShown)
                         {
-                            notification = new NotificationWindow("До выключения осталось менее 1 мин");
+                            notification = new NotificationWindow("До выключения осталось менее 1 мин", this);
                             notification.Show();
                             is1mAlertShown = true;
                         }
-                        if (difference.TotalMinutes < 0) //TODO: Спорная тема
-                        {
-                            is30mAlertShown = false;
-                            is5mAlertShown = false;
-                            is1mAlertShown = false;
-                        }
+                        //if (difference.TotalMinutes < 0) //TODO: Спорная тема
+                        //{
+                        //    is30mAlertShown = false;
+                        //    is5mAlertShown = false;
+                        //    is1mAlertShown = false;
+                        //}
                     }
 
                 });
@@ -151,6 +145,14 @@ namespace DeepSleep
                     isShutdowned = false;
                 }
             }
+        }
+        public void ShutdownResetFlags()
+        {
+            isShutdowned = true;
+            is30mAlertShown = false;
+            is5mAlertShown = false;
+            is1mAlertShown = false;
+            additionalTime = 0;
         }
         private void NormalizeTimeFormat(object sender, KeyboardFocusChangedEventArgs e)
         {
@@ -709,7 +711,7 @@ namespace DeepSleep
             SetSettings(settings);
         }
 
-        private void TimeButton_Click(object sender, MouseButtonEventArgs e)
+        private void TimeButton_Click(object sender, RoutedEventArgs e)
         {
             CustomMessageBox customMessageBox = new CustomMessageBox();
             customMessageBox.Owner = this;
@@ -845,8 +847,6 @@ namespace DeepSleep
 
 
         #endregion
-
-
     }
 }
 

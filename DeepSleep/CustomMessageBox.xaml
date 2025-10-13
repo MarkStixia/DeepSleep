@@ -43,7 +43,7 @@
             </Setter>
         </Style>
     </Window.Resources>
-    <Border CornerRadius="30" Background="#FF222222" MouseLeftButtonDown="Border_MouseLeftButtonDown">
+    <Border CornerRadius="30" Background="#F7222222" MouseLeftButtonDown="Border_MouseLeftButtonDown">
         <Grid>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="12*"/>
