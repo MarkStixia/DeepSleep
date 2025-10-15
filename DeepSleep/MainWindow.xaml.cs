@@ -673,14 +673,14 @@ namespace DeepSleep
         private void Pages_Click(object sender, MouseButtonEventArgs e)
         {
             System.Windows.Controls.Image image = sender as System.Windows.Controls.Image;
-            HomePage.Visibility = Visibility.Hidden;
-            NotificationsPage.Visibility = Visibility.Hidden;
+            HomePage.Visibility = Visibility.Collapsed;
+            NotificationsPage.Visibility = Visibility.Collapsed;
             HomeUnderscoore.Visibility = Visibility.Hidden;
             NotificationsUnderscoore.Visibility = Visibility.Hidden;
             TimerUnderscoore.Visibility = Visibility.Hidden;
             SettingsUnderscoore.Visibility = Visibility.Hidden;
-            SettingsPage.Visibility = Visibility.Hidden;
-            TimerPage.Visibility = Visibility.Hidden;
+            SettingsPage.Visibility = Visibility.Collapsed;
+            TimerPage.Visibility = Visibility.Collapsed;
             switch (image.Uid)
             {
                 case "0":

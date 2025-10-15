@@ -6,7 +6,8 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:DeepSleep"
         mc:Ignorable="d"
-        Title="Deep Sleep" Background="Transparent" BorderThickness="0" ResizeMode="NoResize" Icon="Appicon.ico" Height="450" Width="800" Closing="OnClose" StateChanged="OnStateChanged" IsVisibleChanged="OnIsVisibleChanged" WindowStartupLocation="CenterScreen" AllowsTransparency="True" WindowStyle="None">
+        Style="{DynamicResource CustomWindowStyle}"
+         Background="Transparent" BorderThickness="0" ResizeMode="CanMinimize" Height="470" Width="600" Closing="OnClose" StateChanged="OnStateChanged" IsVisibleChanged="OnIsVisibleChanged" WindowStartupLocation="CenterScreen">
     <Window.Resources>
         <Style x:Key="HoverButtonStyle" TargetType="Button">
             <Setter Property="Background" Value="#1C1A1A"/>
@@ -105,7 +106,7 @@
                                 <ColumnDefinition Width="Auto"/>
                                 <ColumnDefinition Width="*"/>
                             </Grid.ColumnDefinitions>
-                            <Border x:Name="radioButtonBorder" Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" CornerRadius="100" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" Margin="1,1,2,1" VerticalAlignment="{TemplateBinding VerticalContentAlignment}">
+                            <Border x:Name="radioButtonBorder" Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" CornerRadius="100" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}">
                                 <Grid x:Name="markGrid" Margin="2">
                                     <Ellipse x:Name="optionMark" Fill="{StaticResource RadioButton.Static.Glyph}" MinWidth="6" MinHeight="6" Opacity="0"/>
                                 </Grid>
@@ -233,60 +234,17 @@
             </Setter>
         </Style>
     </Window.Resources>
-    <Border Background="#F91A1A1A" MouseLeftButtonDown="Grid_MouseLeftButtonDown" CornerRadius="15">
+    <Border Background="#F91A1A1A" MouseLeftButtonDown="Grid_MouseLeftButtonDown">
         <Grid>
-            <Grid.RowDefinitions>
-                <RowDefinition Height="61*"/>
-                <RowDefinition Height="389*"/>
-            </Grid.RowDefinitions>
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="50*"/>
-                <ColumnDefinition Width="750*"/>
-            </Grid.ColumnDefinitions>
-            <Border CornerRadius="15 0 0 15" Grid.RowSpan="3" Background="#FF0D0D0D"  MouseLeftButtonDown="Grid_MouseLeftButtonDown"/>
-            <StackPanel Grid.Row="1" Grid.Column="0" Grid.RowSpan="4">
-                <StackPanel>
-                    <Image Uid="0" Cursor="Hand" Source="/Icons/Home.png" Height="20" Width="20" MouseLeftButtonDown="Pages_Click"/>
-                    <Image x:Name="HomeUnderscoore" Visibility="Visible" Width="14" Margin="0 2" Source="/Icons/LineUnderScoore.png" />
-                </StackPanel>
-                <StackPanel Margin="0 30">
-                    <Image MouseLeftButtonDown="Pages_Click" Uid="1" Cursor="Hand" Source="/Icons/Notifications.png" Height="20" Width="20"/>
-                    <Image x:Name="NotificationsUnderscoore" Visibility="Hidden" Width="14" Margin="0 2" Source="/Icons/LineUnderScoore.png" />
-                </StackPanel>
-                <StackPanel>
-                    <Image MouseLeftButtonDown="Pages_Click"  Uid="2" Cursor="Hand" Source="/Icons/Timer.png" Height="20" Width="20"/>
-                    <Image x:Name="TimerUnderscoore" Visibility="Hidden" Width="14" Margin="0 2" Source="/Icons/LineUnderScoore.png" />
-                </StackPanel>
-            </StackPanel>
-            <StackPanel Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="0 20">
-                <Image MouseLeftButtonDown="Pages_Click"  Uid="3" Cursor="Hand" Source="/Icons/Settings.png" Height="20" Width="20"/>
-                <Image x:Name="SettingsUnderscoore" Visibility="Hidden" Width="14" Margin="0 2" Source="/Icons/LineUnderScoore.png" />
-            </StackPanel>
-            <Image x:Name="AppIconImage" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0 14 0 0" Height="18" Width="18" Source="/Resources/AppIcon.ico"/>
-
-            <Border VerticalAlignment="Top" Height="36" Grid.Row="0" Margin="1,0,-1,0" Grid.Column="2">
-
-                <Grid>
-                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="0 10 10 0">
-                        <Button Background="Transparent" Style="{StaticResource HoverButtonStyle}" Click="Minimize_Click"  Width="36" Height="36" BorderThickness="0">
-                            <Image Source="Icons/Minimize.png" Width="16"/>
-                        </Button>
-                        <Button Background="Transparent" Style="{StaticResource HoverButtonStyle}" Click="Close_Click" Width="36" Height="36" BorderThickness="0">
-                            <Image Width="16" Source="Icons/Close.png"/>
-                        </Button>
-                    </StackPanel>
-                </Grid>
+           
+            <Border VerticalAlignment="Top" Height="36" Margin="1,0,-1,0">
             </Border>
-            <Grid x:Name="HomePage" Grid.Row="0" Grid.RowSpan="2" Grid.Column="1" Visibility="Visible">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="26*"/>
-                    <ColumnDefinition Width="349*"/>
-                </Grid.ColumnDefinitions>
+            <Grid x:Name="HomePage" Visibility="Visible">
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="8*"/>
-                    <RowDefinition Height="67*"/>
+                    <RowDefinition Height="1*"/>
+                    <RowDefinition Height="10*"/>
                 </Grid.RowDefinitions>
-                <StackPanel HorizontalAlignment="Left" Orientation="Horizontal" VerticalAlignment="Top" Grid.Row="1" Grid.Column="1">
+                <StackPanel HorizontalAlignment="Center" Orientation="Horizontal" VerticalAlignment="Top" Grid.Row="1">
                     <Border Background="#FF0D0D0D" CornerRadius="22" Width="150" Height="150" Visibility="Visible">
                         <Grid>
                             <Grid.RowDefinitions>
@@ -337,16 +295,12 @@
                     </Border>
                 </StackPanel>
             </Grid>
-            <Grid x:Name="NotificationsPage" Grid.Row="0" Grid.RowSpan="2" Grid.Column="1" Visibility="Hidden">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="26*"/>
-                    <ColumnDefinition Width="349*"/>
-                </Grid.ColumnDefinitions>
+            <Grid x:Name="NotificationsPage" Grid.Row="0" Visibility="Collapsed">
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="8*"/>
-                    <RowDefinition Height="67*"/>
+                    <RowDefinition Height="1*"/>
+                    <RowDefinition Height="10*"/>
                 </Grid.RowDefinitions>
-                <StackPanel HorizontalAlignment="Left" Orientation="Horizontal" VerticalAlignment="Top" Grid.Row="1" Grid.Column="1">
+                <StackPanel HorizontalAlignment="Center" Orientation="Horizontal" VerticalAlignment="Top" Grid.Row="1">
                     <Border Background="#FF0D0D0D" CornerRadius="22" Width="150" Height="150" Visibility="Visible">
                         <Grid>
                             <Grid.RowDefinitions>
@@ -380,17 +334,12 @@
 
                 </StackPanel>
             </Grid>
-            <Grid x:Name="TimerPage" Grid.Row="0" Grid.RowSpan="2" Grid.Column="1" Visibility="Hidden">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="26*"/>
-                    <ColumnDefinition Width="349*"/>
-                </Grid.ColumnDefinitions>
+            <Grid x:Name="TimerPage" Visibility="Collapsed">
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="8*"/>
-                    <RowDefinition Height="59*"/>
-                    <RowDefinition Height="8*"/>
+                    <RowDefinition Height="1*"/>
+                    <RowDefinition Height="10*"/>
                 </Grid.RowDefinitions>
-                <Border Background="#FF0D0D0D" CornerRadius="22" Grid.Row="1" Width="317" HorizontalAlignment="Left" Grid.Column="1">
+                <Border Background="#FF0D0D0D" CornerRadius="22" Grid.Row="1" Height="300" Width="317" VerticalAlignment="Top" HorizontalAlignment="Center">
                     <Grid>
                         <Grid.RowDefinitions>
                             <RowDefinition Height="29*"/>
@@ -432,16 +381,12 @@
                     </Grid>
                 </Border>
             </Grid>
-            <Grid x:Name="SettingsPage" Grid.Row="0" Grid.RowSpan="2" Grid.Column="1" Visibility="Hidden">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="26*"/>
-                    <ColumnDefinition Width="349*"/>
-                </Grid.ColumnDefinitions>
+            <Grid x:Name="SettingsPage" Grid.Row="0" Grid.RowSpan="2" Grid.Column="1" Visibility="Collapsed">
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="8*"/>
-                    <RowDefinition Height="67*"/>
+                    <RowDefinition Height="1*"/>
+                    <RowDefinition Height="10*"/>
                 </Grid.RowDefinitions>
-                <StackPanel HorizontalAlignment="Left" Orientation="Horizontal" VerticalAlignment="Top" Grid.Row="1" Grid.Column="1">
+                <StackPanel HorizontalAlignment="Center" Orientation="Horizontal" VerticalAlignment="Top" Grid.Row="1" Grid.Column="1">
                     <Border Background="#FF0D0D0D" CornerRadius="22" Width="150" Height="150" Visibility="Visible">
                         <Grid>
                             <Grid.RowDefinitions>
@@ -475,6 +420,27 @@
 
                 </StackPanel>
             </Grid>
+            <Border Margin="0 0 0 15" Padding="15" HorizontalAlignment="Center" VerticalAlignment="Bottom" CornerRadius="15" Background="#FF0D0D0D"  MouseLeftButtonDown="Grid_MouseLeftButtonDown">
+                <StackPanel Orientation="Horizontal">
+                    <StackPanel  Margin="15 0">
+                        <Image Uid="0" x:Name="AppIconImage" Cursor="Hand" Source="/Resources/AppIcon.png" Height="32" Width="32" MouseLeftButtonDown="Pages_Click"/>
+                        <Border x:Name="HomeUnderscoore" Visibility="Visible" Width="26" Margin="0 2" Background="#FFFFD812" CornerRadius="1" Height="2"/>
+                    </StackPanel>
+                    <StackPanel Margin="15 0">
+                        <Image MouseLeftButtonDown="Pages_Click" Uid="1" Cursor="Hand" Source="/Icons/Notifications.png" Height="32" Width="32"/>
+                        <Border x:Name="NotificationsUnderscoore" Visibility="Hidden" Width="26" Margin="0 2" Background="#FFFFD812" CornerRadius="1" Height="2" />
+                    </StackPanel>
+                    <StackPanel Margin="15 0">
+                        <Image MouseLeftButtonDown="Pages_Click"  Uid="2" Cursor="Hand" Source="/Icons/Timer.png" Height="32" Width="32"/>
+                        <Border x:Name="TimerUnderscoore" Visibility="Hidden" Width="26" Margin="0 2" Background="#FFFFD812" CornerRadius="1" Height="2" />
+                    </StackPanel>
+
+                    <StackPanel Margin="15 0">
+                        <Image MouseLeftButtonDown="Pages_Click"  Uid="3" Cursor="Hand" Source="/Icons/Settings.png" Height="32" Width="32"/>
+                        <Border x:Name="SettingsUnderscoore" Visibility="Hidden" Width="26" Margin="0 2" Background="#FFFFD812" CornerRadius="1" Height="2" />
+                    </StackPanel>
+                </StackPanel>
+            </Border>
         </Grid>
     </Border>
 </Window>
