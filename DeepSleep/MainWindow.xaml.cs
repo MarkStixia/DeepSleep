@@ -249,12 +249,12 @@ namespace DeepSleep
                 switch (parsedSelectedPowerOffMode)
                 {
                     case 0:
-                        HybernationRB.IsChecked = true;
-                        ShutdownRB.IsChecked = false;
+                        HybernationRB.BorderBrush = new SolidColorBrush(System.Windows.Media.Color.FromArgb(255,255, 216, 18));
+                        ShutdownRB.BorderBrush = new SolidColorBrush(System.Windows.Media.Color.FromArgb(0,255, 216, 18));
                         break;
                     case 1:
-                        HybernationRB.IsChecked = false;
-                        ShutdownRB.IsChecked = true;
+                        HybernationRB.BorderBrush = new SolidColorBrush(System.Windows.Media.Color.FromArgb(0,255, 216, 18));
+                        ShutdownRB.BorderBrush = new SolidColorBrush(System.Windows.Media.Color.FromArgb(255,255, 216, 18));
                         break;
                 }
                 selectedPowerOffMode = parsedSelectedPowerOffMode;
@@ -647,14 +647,26 @@ namespace DeepSleep
             }
         }
 
-        private void HybernationRB_Checked(object sender, RoutedEventArgs e)
+        private void HybernationRB_Checked(object sender, MouseButtonEventArgs e)
         {
             if (settings.Count > 0)
             {
-                int uid = int.Parse(((System.Windows.Controls.RadioButton)sender).Uid);
+                int uid = int.Parse(((System.Windows.Controls.Border)sender).Uid);
                 selectedPowerOffMode = uid;
                 if (settings["PowerOffMode"] != uid.ToString())
                     SaveSettings();
+                switch (uid)
+                {
+                    case 0:
+                        HybernationRB.BorderBrush = new SolidColorBrush(System.Windows.Media.Color.FromArgb(255, 255, 216, 18));
+                        ShutdownRB.BorderBrush = new SolidColorBrush(System.Windows.Media.Color.FromArgb(0, 255, 216, 18));
+                        break;
+                    case 1:
+                        HybernationRB.BorderBrush = new SolidColorBrush(System.Windows.Media.Color.FromArgb(0, 255, 216, 18));
+                        ShutdownRB.BorderBrush = new SolidColorBrush(System.Windows.Media.Color.FromArgb(255, 255, 216, 18));
+                        break;
+                }
+             
             }
         }
         private void OnlyDigitsProcedure(object sender, TextCompositionEventArgs e)

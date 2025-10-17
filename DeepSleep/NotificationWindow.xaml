@@ -22,7 +22,6 @@
             <Setter Property="FocusVisualStyle" Value="{StaticResource FocusVisual}"/>
             <Setter Property="Background" Value="{StaticResource Button.Static.Background}"/>
             <Setter Property="BorderBrush" Value="{StaticResource Button.Static.Border}"/>
-            <Setter Property="Foreground" Value="Black"/>
             <Setter Property="BorderThickness" Value="0"/>
             <Setter Property="HorizontalContentAlignment" Value="Center"/>
             <Setter Property="VerticalContentAlignment" Value="Center"/>
@@ -78,9 +77,9 @@
 
             <TextBlock Grid.Row="3" Grid.Column="1" Text="Окно закроется через 10 сек" Foreground="Gray" FontSize="12" VerticalAlignment="Top" Grid.ColumnSpan="2"/>
             <StackPanel Grid.Row="4" Grid.Column="1" Orientation="Horizontal">
-                <Button Uid="5_min" Click="AddTimeButton_Click" Style="{DynamicResource AddTimeButtonStyle}" Height="30" Width="50" Content="+5 мин." Background="#a2a2a2"/>
-                <Button Uid="15_min" Click="AddTimeButton_Click" Style="{DynamicResource AddTimeButtonStyle}" Content="+15 мин." Height="30" Width="50" Margin="15 0" Background="#a2a2a2"/>
-                <Button Uid="30_min" Click="AddTimeButton_Click" Style="{DynamicResource AddTimeButtonStyle}" Content="+30 мин." Height="30" Width="50" Background="#FFD812"/>
+                <Button  Uid="5_min" Click="AddTimeButton_Click" Style="{DynamicResource AddTimeButtonStyle}" Height="32" Width="60" Content="+5 мин." Background="#FFB4B4B4" />
+                <Button Uid="15_min" Click="AddTimeButton_Click" Style="{DynamicResource AddTimeButtonStyle}" Content="+15 мин." Height="32" Width="60" Margin="15 0" Background="#FFB4B4B4"/>
+                <Button Uid="30_min" Click="AddTimeButton_Click" Style="{DynamicResource AddTimeButtonStyle}" Content="+30 мин." Height="32" Width="60" Background="#FFD812"/>
             </StackPanel>
         </Grid>
 
