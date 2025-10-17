@@ -65,7 +65,7 @@
     <GenerateManifests>true</GenerateManifests>
   </PropertyGroup>
   <PropertyGroup>
-    <SignManifests>true</SignManifests>
+    <SignManifests>false</SignManifests>
   </PropertyGroup>
   <PropertyGroup>
     <StartupObject>DeepSleep.App</StartupObject>
@@ -103,27 +103,14 @@
     <Compile Include="Themes\Attached\PasswordBoxHelper.cs" />
     <Compile Include="Themes\Attached\TextBoxAutoSelect.cs" />
     <Compile Include="Themes\Attached\TextHinting.cs" />
-    <Compile Include="Themes\ColourfulDarkTheme.xaml.cs">
-      <DependentUpon>ColourfulDarkTheme.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Themes\ColourfulLightTheme.xaml.cs">
-      <DependentUpon>ColourfulLightTheme.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Themes\Controls.xaml.cs">
       <DependentUpon>Controls.xaml</DependentUpon>
     </Compile>
     <Compile Include="Themes\DarkTheme.xaml.cs">
       <DependentUpon>DarkTheme.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Themes\LightTheme.xaml.cs">
-      <DependentUpon>LightTheme.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Themes\ThemesController.cs" />
     <Compile Include="Themes\ThemeType.cs" />
-    <Page Include="CustomMessageBox.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -131,9 +118,6 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="CustomMessageBox.xaml.cs">
-      <DependentUpon>CustomMessageBox.xaml</DependentUpon>
     </Compile>
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
@@ -167,14 +151,6 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Themes\ColourfulDarkTheme.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Themes\ColourfulLightTheme.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
     <Page Include="Themes\ControlColours.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -184,10 +160,6 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Themes\DarkTheme.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Themes\LightTheme.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -219,7 +191,6 @@
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
-    <None Include="Themes\readme.md" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

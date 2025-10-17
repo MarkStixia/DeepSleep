@@ -11,14 +11,32 @@ namespace DeepSleep
     public partial class NotificationWindow : Window
     {
         private MainWindow mainWindow;
-        public NotificationWindow(string Text, MainWindow main)
+        private int windowCloseTime;
+
+        /// <param name="buttons">1 - кнопки добавления времени, 2 - да/нет, 3 - ок</param>
+        /// <param name="closeTime">Время через которое закроется окно (сек)</param>
+        public NotificationWindow(string title, int closeTime, byte buttons, MainWindow main)
         {
             InitializeComponent();
             Loaded += Window_Loaded;
-            NotificationText.Text = Text;
+            NotificationText.Text = title;
+            windowCloseTime = closeTime;
+            CloseWindowText.Text = $"Окно закроется через {closeTime} сек";
             mainWindow = main;
             DelayClose();
-            if (MainWindow.settings["Sounds"] == "On")
+            switch (buttons)
+            {
+                case 1:
+                    TimeAdditionPanel.Visibility = Visibility.Visible;
+                    break;
+                    case 2:
+                    YesNoPanel.Visibility = Visibility.Visible;
+                    break;
+                    case 3:
+                    OKPanel.Visibility = Visibility.Visible;
+                    break;
+            }
+            if (MainWindow.settings["Sounds"] == "On" && buttons == 1)
             {
                 using (SoundPlayer player = new SoundPlayer(Properties.Resources.NotificationSound))
                 {
@@ -29,10 +47,8 @@ namespace DeepSleep
 
         private async void DelayClose()
         {
-            await Task.Delay(9300);
-            FadeAnimation(false);
-            await Task.Delay(700);
-            Close();
+            await Task.Delay((int)(windowCloseTime * 1000 * 0.93f));
+            FadeClose();
         }
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
@@ -78,19 +94,43 @@ namespace DeepSleep
             BeginAnimation(Window.TopProperty, animY);
             BeginAnimation(Window.OpacityProperty, animOpacity);
         }
-        private async void Window_MouseRightButtonUp(object sender, MouseButtonEventArgs e)
+        private void Window_MouseRightButtonUp(object sender, MouseButtonEventArgs e)
+        {
+            FadeClose();
+        }
+        private void AddTimeButton_Click(object sender, RoutedEventArgs e)
+        {
+            string uId = ((Button)sender).Uid;
+            int Time = int.Parse(uId.Split('_')[0]);
+            mainWindow.AddTime(Time);
+            FadeClose();
+        }
+
+        private void OK_Click(object sender, RoutedEventArgs e)
+        {
+            FadeClose();
+        }
+        private async void FadeClose()
         {
             FadeAnimation(false);
             await Task.Delay(700);
             Close();
         }
 
-        private void AddTimeButton_Click(object sender, RoutedEventArgs e)
+        private void YesNoClick(object sender, RoutedEventArgs e)
         {
             string uId = ((Button)sender).Uid;
-            int Time = int.Parse(uId.Split('_')[0]);
-            mainWindow.AddTime(Time);
-            Close();
+
+            if (uId == "True")
+            {
+                DialogResult = true;
+                FadeClose();
+            }
+            else
+            {
+                DialogResult = false;
+                FadeClose();
+            }
         }
     }
 }

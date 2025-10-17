@@ -31,6 +31,7 @@ namespace DeepSleep
         private int timerSecondLeft = 0;
         private int selectedTimerMode = 0;
         private int additionalTime = 0;
+
         //Alerts and shutdown bools
         private bool is30mAlertShown = false;
         private bool is5mAlertShown = false;
@@ -112,7 +113,8 @@ namespace DeepSleep
 
                         if (difference.TotalMinutes <= 30 && difference.TotalMinutes > 25 && !is30mAlertShown)
                         {
-                            notification = new NotificationWindow("До выключения осталось менее 30 мин", this);
+                            if (notification != null) notification.Close();
+                            notification = new NotificationWindow("До выключения осталось менее 30 мин", 10, 1, this);
                             notification.Show();
                             is30mAlertShown = true;
                             is5mAlertShown = false;
@@ -120,23 +122,19 @@ namespace DeepSleep
                         }
                         else if (difference.TotalMinutes <= 5 && difference.TotalMinutes > 2 && !is5mAlertShown)
                         {
-                            notification = new NotificationWindow("До выключения осталось менее 5 мин", this);
+                            if (notification != null) notification.Close();
+                            notification = new NotificationWindow("До выключения осталось менее 5 мин", 10, 1, this);
                             notification.Show();
                             is5mAlertShown = true;
                             is1mAlertShown = false;
                         }
                         else if (difference.TotalSeconds <= 60 && difference.TotalSeconds > 0 && !is1mAlertShown)
                         {
-                            notification = new NotificationWindow("До выключения осталось менее 1 мин", this);
+                            if (notification != null) notification.Close();
+                            notification = new NotificationWindow("До выключения осталось менее 1 мин", 10, 1, this);
                             notification.Show();
                             is1mAlertShown = true;
                         }
-                        //if (difference.TotalMinutes < 0) //TODO: Спорная тема
-                        //{
-                        //    is30mAlertShown = false;
-                        //    is5mAlertShown = false;
-                        //    is1mAlertShown = false;
-                        //}
                     }
 
                 });
@@ -249,12 +247,12 @@ namespace DeepSleep
                 switch (parsedSelectedPowerOffMode)
                 {
                     case 0:
-                        HybernationRB.BorderBrush = new SolidColorBrush(System.Windows.Media.Color.FromArgb(255,255, 216, 18));
-                        ShutdownRB.BorderBrush = new SolidColorBrush(System.Windows.Media.Color.FromArgb(0,255, 216, 18));
+                        HybernationRB.BorderBrush = new SolidColorBrush(System.Windows.Media.Color.FromArgb(255, 255, 216, 18));
+                        ShutdownRB.BorderBrush = new SolidColorBrush(System.Windows.Media.Color.FromArgb(0, 255, 216, 18));
                         break;
                     case 1:
-                        HybernationRB.BorderBrush = new SolidColorBrush(System.Windows.Media.Color.FromArgb(0,255, 216, 18));
-                        ShutdownRB.BorderBrush = new SolidColorBrush(System.Windows.Media.Color.FromArgb(255,255, 216, 18));
+                        HybernationRB.BorderBrush = new SolidColorBrush(System.Windows.Media.Color.FromArgb(0, 255, 216, 18));
+                        ShutdownRB.BorderBrush = new SolidColorBrush(System.Windows.Media.Color.FromArgb(255, 255, 216, 18));
                         break;
                 }
                 selectedPowerOffMode = parsedSelectedPowerOffMode;
@@ -374,15 +372,15 @@ namespace DeepSleep
             }
             if (settingsDictionary.TryGetValue("TimerMode", out string readTimerMode))
             {
-                HybernationTimerRB.IsChecked = false;
-                ShutdownTimerRB.IsChecked = false;
+                HybernationTimerRB.BorderBrush = new SolidColorBrush(System.Windows.Media.Color.FromArgb(0, 255, 216, 18));
+                ShutdownTimerRB.BorderBrush = new SolidColorBrush(System.Windows.Media.Color.FromArgb(0, 255, 216, 18));
                 if (readTimerMode == "0")
                 {
-                    HybernationTimerRB.IsChecked = true;
+                    HybernationTimerRB.BorderBrush = new SolidColorBrush(System.Windows.Media.Color.FromArgb(255, 255, 216, 18));
                 }
                 else
                 {
-                    ShutdownTimerRB.IsChecked = true;
+                    ShutdownTimerRB.BorderBrush = new SolidColorBrush(System.Windows.Media.Color.FromArgb(255, 255, 216, 18));
                 }
             }
             contextMenu = new ContextMenu();
@@ -495,19 +493,29 @@ namespace DeepSleep
         }
         private void Hibernation(object sender, EventArgs e)
         {
-            isShutdowned = true;
-            PowerShellCommand("shutdown /h");
-            is30mAlertShown = false;
-            is5mAlertShown = false;
-            is1mAlertShown = false;
+            notification = new NotificationWindow("Вы уверены, что хотите выключить пк?", 30, 2, this);
+            notification.ShowDialog();
+            if (notification.DialogResult == true)
+            {
+                isShutdowned = true;
+                PowerShellCommand("shutdown /h");
+                is30mAlertShown = false;
+                is5mAlertShown = false;
+                is1mAlertShown = false;
+            }
         }
         private void PowerOff(object sender, EventArgs e)
         {
-            isShutdowned = true;
-            PowerShellCommand("shutdown /s /f /t 0");
-            is30mAlertShown = false;
-            is5mAlertShown = false;
-            is1mAlertShown = false;
+            notification = new NotificationWindow("Вы уверены, что хотите выключить пк?", 30, 2, this);
+            notification.ShowDialog();
+            if (notification.DialogResult == true)
+            {
+                isShutdowned = true;
+                PowerShellCommand("shutdown /s /f /t 0");
+                is30mAlertShown = false;
+                is5mAlertShown = false;
+                is1mAlertShown = false;
+            }
         }
         private void SetPowerOn(object sender, EventArgs e)
         {
@@ -574,10 +582,21 @@ namespace DeepSleep
         {
             if (settings.Count > 0)
             {
-                int uid = int.Parse(((System.Windows.Controls.RadioButton)sender).Uid);
+                int uid = int.Parse(((System.Windows.Controls.Border)sender).Uid);
                 selectedTimerMode = uid;
                 if (settings["TimerMode"] != uid.ToString())
                     SaveSettings();
+                switch (uid)
+                {
+                    case 0:
+                        HybernationTimerRB.BorderBrush = new SolidColorBrush(System.Windows.Media.Color.FromArgb(255, 255, 216, 18));
+                        ShutdownTimerRB.BorderBrush = new SolidColorBrush(System.Windows.Media.Color.FromArgb(0, 255, 216, 18));
+                        break;
+                    case 1:
+                        HybernationTimerRB.BorderBrush = new SolidColorBrush(System.Windows.Media.Color.FromArgb(0, 255, 216, 18));
+                        ShutdownTimerRB.BorderBrush = new SolidColorBrush(System.Windows.Media.Color.FromArgb(255, 255, 216, 18));
+                        break;
+                }
             }
         }
         private void StartTimerButton_Click(object sender, RoutedEventArgs e)
@@ -666,7 +685,7 @@ namespace DeepSleep
                         ShutdownRB.BorderBrush = new SolidColorBrush(System.Windows.Media.Color.FromArgb(255, 255, 216, 18));
                         break;
                 }
-             
+
             }
         }
         private void OnlyDigitsProcedure(object sender, TextCompositionEventArgs e)
@@ -725,9 +744,14 @@ namespace DeepSleep
 
         private void TimeButton_Click(object sender, RoutedEventArgs e)
         {
-            CustomMessageBox customMessageBox = new CustomMessageBox();
-            customMessageBox.Owner = this;
-            customMessageBox.ShowDialog();
+            ApplyTime();
+        }
+
+        private void ApplyTime()
+        {
+            if (notification != null) notification.Close();
+            notification = new NotificationWindow("Настройки сохранены", 3, 3, this);
+            notification.Show();
             is30mAlertShown = false;
             is5mAlertShown = false;
             is1mAlertShown = false;
@@ -859,6 +883,12 @@ namespace DeepSleep
 
 
         #endregion
+
+        private void TimeBox_KeyUp(object sender, System.Windows.Input.KeyEventArgs e)
+        {
+            if (e.Key == Key.Enter)
+                ApplyTime();
+        }
     }
 }
 

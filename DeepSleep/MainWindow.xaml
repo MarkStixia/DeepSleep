@@ -234,18 +234,16 @@
             </Setter>
         </Style>
     </Window.Resources>
-    <Border Background="#F91A1A1A">
+    <Border Background="#FF0D0D0D">
         <Grid>
-           
-            <Border VerticalAlignment="Top" Height="36" Margin="1,0,-1,0">
-            </Border>
             <Grid x:Name="HomePage" Visibility="Visible">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="1*"/>
-                    <RowDefinition Height="10*"/>
+                    <RowDefinition Height="25*"/>
                 </Grid.RowDefinitions>
                 <StackPanel HorizontalAlignment="Center" Orientation="Horizontal" VerticalAlignment="Top" Grid.Row="1">
-                    <Border Background="#FF0D0D0D" CornerRadius="22" Width="150" Height="150" Visibility="Visible">
+                    <WrapPanel Width="320">
+                    <Border Background="#F91A1A1A" CornerRadius="22" Width="150" Height="150" Visibility="Visible">
                         <Grid>
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="73*"/>
@@ -260,18 +258,18 @@
 
                         </Grid>
                     </Border>
-                    <Border Margin="20 0 0 0" Background="#FF0D0D0D" CornerRadius="22" Width="150" Height="150">
+                    <Border Margin="20 0 0 0" Background="#F91A1A1A" CornerRadius="22" Width="150" Height="150">
                         <Grid>
                             <Grid.RowDefinitions>
-                                <RowDefinition Height="36*"/>
-                                <RowDefinition Height="67*"/>
-                                <RowDefinition Height="47*"/>
+                                <RowDefinition Height="45*"/>
+                                <RowDefinition Height="45*"/>
+                                <RowDefinition Height="35*"/>
                             </Grid.RowDefinitions>
-                            <TextBlock FontWeight="Bold" Text="Время срабатывания" Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Bottom" FontSize="14"/>
+                            <TextBlock FontWeight="Bold" Text="Время срабатывания" TextAlignment="Center" TextWrapping="Wrap" Width="130" Height="40" Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Bottom" FontSize="14"/>
                             <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Row="1" Orientation="Horizontal">
-                                <TextBox Uid="hours" TextChanged="_maskedTextBox_TextChanged" x:Name="TimeBox1" MaxLength="2" TextAlignment="Center" Text="00" FontSize="36" Foreground="White" VerticalAlignment="Bottom" Width="50" Style="{DynamicResource TimeTextBoxStyle}" PreviewTextInput="OnlyDigitsProcedure" PreviewKeyDown="NoInsertProcedure" ContextMenu="{x:Null}" LostKeyboardFocus="NormalizeTimeFormat"/>
+                                <TextBox Uid="hours" TextChanged="_maskedTextBox_TextChanged" x:Name="TimeBox1" MaxLength="2" TextAlignment="Center" Text="00" FontSize="36" Foreground="White" VerticalAlignment="Bottom" Width="50" Style="{DynamicResource TimeTextBoxStyle}" PreviewTextInput="OnlyDigitsProcedure" PreviewKeyDown="NoInsertProcedure" ContextMenu="{x:Null}" LostKeyboardFocus="NormalizeTimeFormat" KeyUp="TimeBox_KeyUp"/>
                                 <TextBlock Margin="10 0" Text=":" Foreground="White" FontSize="44" VerticalAlignment="Center"/>
-                                <TextBox Uid="minutes" TextChanged="_maskedTextBox_TextChanged" x:Name="TimeBox2" MaxLength="2" TextAlignment="Center" Text="00" FontSize="36" Foreground="White" VerticalAlignment="Bottom" Width="50" Style="{DynamicResource TimeTextBoxStyle}" PreviewTextInput="OnlyDigitsProcedure" PreviewKeyDown="NoInsertProcedure" ContextMenu="{x:Null}" LostKeyboardFocus="NormalizeTimeFormat"/>
+                                    <TextBox Uid="minutes" TextChanged="_maskedTextBox_TextChanged" x:Name="TimeBox2" MaxLength="2" TextAlignment="Center" Text="00" FontSize="36" Foreground="White" VerticalAlignment="Bottom" Width="50" Style="{DynamicResource TimeTextBoxStyle}" PreviewTextInput="OnlyDigitsProcedure" PreviewKeyDown="NoInsertProcedure" ContextMenu="{x:Null}" LostKeyboardFocus="NormalizeTimeFormat"  KeyUp="TimeBox_KeyUp"/>
                             </StackPanel>
                             <Button Grid.Row="2" BorderThickness="0" Cursor="Hand" HorizontalAlignment="Center" VerticalAlignment="Bottom" Width="22" Height="22" Margin="0 0 0 8" Click="TimeButton_Click" Style="{DynamicResource AccentButtonStyle}">
                                 <Button.Background>
@@ -280,7 +278,7 @@
                             </Button>
                         </Grid>
                     </Border>
-                    <Border Margin="20 0 0 0" Background="#FF0D0D0D" CornerRadius="22" Width="150" Height="150">
+                    <Border Margin="0 20 0 0" Background="#F91A1A1A" CornerRadius="22" Width="150" Height="150">
                         <Grid>
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="23*"/>
@@ -291,66 +289,68 @@
                                 <Border Cursor="Hand" Width="100" Uid="0" Background="Transparent" BorderBrush="#FFD812" BorderThickness="2" CornerRadius="5" Padding="10 2" x:Name="HybernationRB" MouseLeftButtonUp="HybernationRB_Checked">
                                     <TextBlock TextAlignment="Center" Text="Гибернация" Foreground="White" VerticalAlignment="Center"/>
                                 </Border>
-                                <Border  Cursor="Hand" Margin="0 10" Width="100" Uid="1" Background="Transparent" BorderBrush="#FFD812" BorderThickness="2" CornerRadius="5" Padding="10 2" x:Name="ShutdownRB" MouseLeftButtonUp="HybernationRB_Checked">
+                                <Border  Cursor="Hand" Margin="0 10" Height="22" Width="100" Uid="1" Background="Transparent" BorderBrush="#00FFD812" BorderThickness="2" CornerRadius="5" Padding="10 2" x:Name="ShutdownRB" MouseLeftButtonUp="HybernationRB_Checked">
                                     <TextBlock TextAlignment="Center" Text="Выключение" Foreground="White" VerticalAlignment="Center"/>
                                 </Border>
                             </StackPanel>
                         </Grid>
                     </Border>
+                    </WrapPanel>
                 </StackPanel>
             </Grid>
             <Grid x:Name="NotificationsPage" Grid.Row="0" Visibility="Collapsed">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="1*"/>
-                    <RowDefinition Height="10*"/>
+                    <RowDefinition Height="25*"/>
                 </Grid.RowDefinitions>
                 <StackPanel HorizontalAlignment="Center" Orientation="Horizontal" VerticalAlignment="Top" Grid.Row="1">
-                    <Border Background="#FF0D0D0D" CornerRadius="22" Width="150" Height="150" Visibility="Visible">
-                        <Grid>
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="73*"/>
-                                <RowDefinition Height="30*"/>
-                                <RowDefinition Height="47*"/>
-                            </Grid.RowDefinitions>
-                            <Image x:Name="NotificationsImage" Height="45" Width="36" VerticalAlignment="Bottom" Source="/Icons/Notifications.png" Stretch="Fill" />
-                            <StackPanel Grid.Row="2">
-                                <Image Tag="On" Cursor="Hand" x:Name="NotificationsToggle" Source="/Icons/ToggleOn.png" Height="22" Width="36" MouseLeftButtonDown="NotificationsToggle_MouseLeftButtonDown"/>
-                                <TextBlock x:Name="NotificationsToggleText" Text="Вкл" Foreground="WhiteSmoke" HorizontalAlignment="Center"/>
-                            </StackPanel>
+                    <WrapPanel Width="320">
+                        <Border Background="#F91A1A1A" CornerRadius="22" Width="150" Height="150" Visibility="Visible">
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="73*"/>
+                                    <RowDefinition Height="30*"/>
+                                    <RowDefinition Height="47*"/>
+                                </Grid.RowDefinitions>
+                                <Image x:Name="NotificationsImage" Height="45" Width="36" VerticalAlignment="Bottom" Source="/Icons/Notifications.png" Stretch="Fill" />
+                                <StackPanel Grid.Row="2">
+                                    <Image Tag="On" Cursor="Hand" x:Name="NotificationsToggle" Source="/Icons/ToggleOn.png" Height="22" Width="36" MouseLeftButtonDown="NotificationsToggle_MouseLeftButtonDown"/>
+                                    <TextBlock x:Name="NotificationsToggleText" Text="Вкл" Foreground="WhiteSmoke" HorizontalAlignment="Center"/>
+                                </StackPanel>
 
-                        </Grid>
-                    </Border>
-                    <Border Margin="20 0 0 0" Background="#FF0D0D0D" CornerRadius="22" Width="150" Height="150" Visibility="Visible">
-                        <Grid>
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="73*"/>
-                                <RowDefinition Height="30*"/>
-                                <RowDefinition Height="47*"/>
-                            </Grid.RowDefinitions>
-                            <Image x:Name="SoundsImage" Height="45" Width="45" VerticalAlignment="Bottom" Source="/Icons/Volume.png" Stretch="Fill" />
-                            <StackPanel Grid.Row="2">
-                                <Image Tag="On" Cursor="Hand" x:Name="SoundsToggle" Source="/Icons/ToggleOn.png" Height="22" Width="36" MouseLeftButtonDown="SoundToggle_MouseLeftButtonDown"/>
-                                <TextBlock x:Name="SoundsToggleText" Text="Вкл" Foreground="WhiteSmoke" HorizontalAlignment="Center"/>
-                            </StackPanel>
+                            </Grid>
+                        </Border>
+                        <Border Margin="20 0 0 0" Background="#F91A1A1A" CornerRadius="22" Width="150" Height="150" Visibility="Visible">
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="73*"/>
+                                    <RowDefinition Height="30*"/>
+                                    <RowDefinition Height="47*"/>
+                                </Grid.RowDefinitions>
+                                <Image x:Name="SoundsImage" Height="45" Width="45" VerticalAlignment="Bottom" Source="/Icons/Volume.png" Stretch="Fill" />
+                                <StackPanel Grid.Row="2">
+                                    <Image Tag="On" Cursor="Hand" x:Name="SoundsToggle" Source="/Icons/ToggleOn.png" Height="22" Width="36" MouseLeftButtonDown="SoundToggle_MouseLeftButtonDown"/>
+                                    <TextBlock x:Name="SoundsToggleText" Text="Вкл" Foreground="WhiteSmoke" HorizontalAlignment="Center"/>
+                                </StackPanel>
 
-                        </Grid>
-                    </Border>
-
+                            </Grid>
+                        </Border>
+                    </WrapPanel>
                 </StackPanel>
             </Grid>
             <Grid x:Name="TimerPage" Visibility="Collapsed">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="1*"/>
-                    <RowDefinition Height="10*"/>
+                    <RowDefinition Height="25*"/>
                 </Grid.RowDefinitions>
-                <Border Background="#FF0D0D0D" CornerRadius="22" Grid.Row="1" Height="300" Width="317" VerticalAlignment="Top" HorizontalAlignment="Center">
+                <Border Background="#F91A1A1A" CornerRadius="22" Grid.Row="1" Height="320" Width="320" VerticalAlignment="Top" HorizontalAlignment="Center">
                     <Grid>
                         <Grid.RowDefinitions>
                             <RowDefinition Height="29*"/>
                             <RowDefinition Height="106*"/>
                             <RowDefinition Height="42*"/>
                         </Grid.RowDefinitions>
-                        <TextBlock Text="Таймер выключения" Foreground="White" FontSize="20" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        <TextBlock FontWeight="Bold" Text="Таймер выключения" Foreground="White" FontSize="20" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                         <StackPanel x:Name="TimerChoosePanel" Visibility="Visible" Grid.Row="1" Cursor="">
                             <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Orientation="Horizontal">
                                 <TextBox Uid="hours" TextChanged="_maskedTextBox_TextChanged" x:Name="TimerBoxHours" MaxLength="2" TextAlignment="Center" Text="00" FontSize="36" Foreground="White" VerticalAlignment="Bottom" Width="50" Style="{DynamicResource TimeTextBoxStyle}" PreviewTextInput="OnlyDigitsProcedure" PreviewKeyDown="NoInsertProcedure" ContextMenu="{x:Null}" LostKeyboardFocus="NormalizeTimeFormat"/>
@@ -361,8 +361,12 @@
                             </StackPanel>
                             <TextBlock Margin="0 35 0 15" FontWeight="Bold" Text="Режим" Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Bottom" FontSize="14"/>
                             <StackPanel Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Center">
-                                <RadioButton Uid="0" IsChecked="True" x:Name="HybernationTimerRB" Style="{DynamicResource RadioButtonStyle1}" Content="Гибернация" Foreground="White" Checked="HybernationTimerRB_Checked"/>
-                                <RadioButton Uid="1" x:Name="ShutdownTimerRB" Content="Выключение" Foreground="White" Margin="0 15" Style="{DynamicResource RadioButtonStyle1}" Checked="HybernationTimerRB_Checked"/>
+                                <Border Cursor="Hand" Width="100" Uid="0" Background="Transparent" BorderBrush="#FFD812" BorderThickness="2" CornerRadius="5" Padding="10 2" x:Name="HybernationTimerRB" MouseLeftButtonUp="HybernationTimerRB_Checked">
+                                    <TextBlock TextAlignment="Center" Text="Гибернация" Foreground="White" VerticalAlignment="Center"/>
+                                </Border>
+                                <Border  Cursor="Hand" Margin="0 10" Height="22" Width="100" Uid="1" Background="Transparent" BorderBrush="#00FFD812" BorderThickness="2" CornerRadius="5" Padding="10 2" x:Name="ShutdownTimerRB" MouseLeftButtonUp="HybernationTimerRB_Checked">
+                                    <TextBlock TextAlignment="Center" Text="Выключение" Foreground="White" VerticalAlignment="Center"/>
+                                </Border>
                             </StackPanel>
                         </StackPanel>
                         <StackPanel x:Name="TimerCountdownPanel" Visibility="Hidden" Grid.Row="1" VerticalAlignment="Center">
@@ -374,7 +378,7 @@
                                 <TextBox IsEnabled="False" Uid="seconds" x:Name="TimerCountdownBoxSeconds" MaxLength="2" TextAlignment="Center" Text="00" FontSize="36" Foreground="White" VerticalAlignment="Bottom" Width="50" Style="{DynamicResource TimeTextBoxStyle}" ContextMenu="{x:Null}"/>
                             </StackPanel>
                         </StackPanel>
-                        <StackPanel Grid.Row="2" VerticalAlignment="Top" Orientation="Horizontal" HorizontalAlignment="Center">
+                        <StackPanel Margin="0 15 0 0" Grid.Row="2" VerticalAlignment="Top" Orientation="Horizontal" HorizontalAlignment="Center">
                             <Button x:Name="StartTimerButton" Margin="15 0" Style="{DynamicResource CircleAccentButton}" Width="36" Height="36" Click="StartTimerButton_Click">
                                 <Image Source="/Icons/PlayArrow.png"/>
                             </Button>
@@ -388,60 +392,61 @@
             <Grid x:Name="SettingsPage" Grid.Row="0" Grid.RowSpan="2" Grid.Column="1" Visibility="Collapsed">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="1*"/>
-                    <RowDefinition Height="10*"/>
+                    <RowDefinition Height="25*"/>
                 </Grid.RowDefinitions>
                 <StackPanel HorizontalAlignment="Center" Orientation="Horizontal" VerticalAlignment="Top" Grid.Row="1" Grid.Column="1">
-                    <Border Background="#FF0D0D0D" CornerRadius="22" Width="150" Height="150" Visibility="Visible">
-                        <Grid>
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="73*"/>
-                                <RowDefinition Height="30*"/>
-                                <RowDefinition Height="47*"/>
-                            </Grid.RowDefinitions>
-                            <TextBlock FontWeight="Bold" Foreground="White" Text="Автозапуск" TextWrapping="Wrap" FontSize="16" TextAlignment="Center" VerticalAlignment="Center" HorizontalAlignment="Center" Grid.RowSpan="2"/>
-                            <StackPanel Grid.Row="2">
-                                <Image Tag="Off" Cursor="Hand" x:Name="AutoStartToggle" Source="/Icons/ToggleOff.png" Height="22" Width="36" MouseLeftButtonDown="AutoStartToggle_MouseLeftButtonDown"/>
-                                <TextBlock x:Name="AutoStartToggleText" Text="Выкл" Foreground="WhiteSmoke" HorizontalAlignment="Center"/>
-                            </StackPanel>
+                    <WrapPanel Width="320">
+                        <Border Background="#F91A1A1A" CornerRadius="22" Width="150" Height="150" Visibility="Visible">
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="73*"/>
+                                    <RowDefinition Height="30*"/>
+                                    <RowDefinition Height="47*"/>
+                                </Grid.RowDefinitions>
+                                <TextBlock FontWeight="Bold" Foreground="White" Text="Автозапуск" TextWrapping="Wrap" FontSize="16" TextAlignment="Center" VerticalAlignment="Center" HorizontalAlignment="Center" Grid.RowSpan="2"/>
+                                <StackPanel Grid.Row="2">
+                                    <Image Tag="Off" Cursor="Hand" x:Name="AutoStartToggle" Source="/Icons/ToggleOff.png" Height="22" Width="36" MouseLeftButtonDown="AutoStartToggle_MouseLeftButtonDown"/>
+                                    <TextBlock x:Name="AutoStartToggleText" Text="Выкл" Foreground="WhiteSmoke" HorizontalAlignment="Center"/>
+                                </StackPanel>
 
-                        </Grid>
-                    </Border>
-                    <Border Margin="20 0 0 0" Background="#FF0D0D0D" CornerRadius="22" Width="150" Height="150" Visibility="Visible">
-                        <Grid>
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="73*"/>
-                                <RowDefinition Height="30*"/>
-                                <RowDefinition Height="47*"/>
-                            </Grid.RowDefinitions>
-                            <TextBlock FontWeight="Bold" Foreground="White" Text="Запускать свернутым" TextWrapping="Wrap" FontSize="16" TextAlignment="Center" VerticalAlignment="Center" HorizontalAlignment="Center" Grid.RowSpan="2"/>
-                            <StackPanel Grid.Row="2">
-                                <Image Tag="Off" Cursor="Hand" x:Name="TrayStartToggle" Source="/Icons/ToggleOff.png" Height="22" Width="36" MouseLeftButtonDown="TrayStartToggle_MouseLeftButtonDown"/>
-                                <TextBlock x:Name="TrayStartToggleText" Text="Выкл" Foreground="WhiteSmoke" HorizontalAlignment="Center"/>
-                            </StackPanel>
+                            </Grid>
+                        </Border>
+                        <Border Margin="20 0 0 0" Background="#F91A1A1A" CornerRadius="22" Width="150" Height="150" Visibility="Visible">
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="73*"/>
+                                    <RowDefinition Height="30*"/>
+                                    <RowDefinition Height="47*"/>
+                                </Grid.RowDefinitions>
+                                <TextBlock FontWeight="Bold" Foreground="White" Text="Запускать свернутым" TextWrapping="Wrap" FontSize="16" TextAlignment="Center" VerticalAlignment="Center" HorizontalAlignment="Center" Grid.RowSpan="2"/>
+                                <StackPanel Grid.Row="2">
+                                    <Image Tag="Off" Cursor="Hand" x:Name="TrayStartToggle" Source="/Icons/ToggleOff.png" Height="22" Width="36" MouseLeftButtonDown="TrayStartToggle_MouseLeftButtonDown"/>
+                                    <TextBlock x:Name="TrayStartToggleText" Text="Выкл" Foreground="WhiteSmoke" HorizontalAlignment="Center"/>
+                                </StackPanel>
 
-                        </Grid>
-                    </Border>
-
+                            </Grid>
+                        </Border>
+                    </WrapPanel>
                 </StackPanel>
             </Grid>
-            <Border Margin="0 0 0 15" Padding="15" HorizontalAlignment="Center" VerticalAlignment="Bottom" CornerRadius="15" Background="#FF0D0D0D"  MouseLeftButtonDown="Grid_MouseLeftButtonDown">
+            <Border Height="68" Margin="0 0 0 15" Padding="15" HorizontalAlignment="Center" VerticalAlignment="Bottom" CornerRadius="15" Background="#F91A1A1A">
                 <StackPanel Orientation="Horizontal">
                     <StackPanel  Margin="15 0">
                         <Image Uid="0" x:Name="AppIconImage" Cursor="Hand" Source="/Resources/AppIcon.png" Height="32" Width="32" MouseLeftButtonDown="Pages_Click"/>
-                        <Border x:Name="HomeUnderscoore" Visibility="Visible" Width="26" Margin="0 2" Background="#FFFFD812" CornerRadius="1" Height="2"/>
+                        <Border x:Name="HomeUnderscoore" Visibility="Visible" Width="26" Margin="0 4" Background="#FFFFD812" CornerRadius="1" Height="2"/>
                     </StackPanel>
                     <StackPanel Margin="15 0">
                         <Image MouseLeftButtonDown="Pages_Click" Uid="1" Cursor="Hand" Source="/Icons/Notifications.png" Height="32" Width="32"/>
-                        <Border x:Name="NotificationsUnderscoore" Visibility="Hidden" Width="26" Margin="0 2" Background="#FFFFD812" CornerRadius="1" Height="2" />
+                        <Border x:Name="NotificationsUnderscoore" Visibility="Hidden" Width="26" Margin="0 4" Background="#FFFFD812" CornerRadius="1" Height="2" />
                     </StackPanel>
                     <StackPanel Margin="15 0">
                         <Image MouseLeftButtonDown="Pages_Click"  Uid="2" Cursor="Hand" Source="/Icons/Timer.png" Height="32" Width="32"/>
-                        <Border x:Name="TimerUnderscoore" Visibility="Hidden" Width="26" Margin="0 2" Background="#FFFFD812" CornerRadius="1" Height="2" />
+                        <Border x:Name="TimerUnderscoore" Visibility="Hidden" Width="26" Margin="0 4" Background="#FFFFD812" CornerRadius="1" Height="2" />
                     </StackPanel>
 
                     <StackPanel Margin="15 0">
                         <Image MouseLeftButtonDown="Pages_Click"  Uid="3" Cursor="Hand" Source="/Icons/Settings.png" Height="32" Width="32"/>
-                        <Border x:Name="SettingsUnderscoore" Visibility="Hidden" Width="26" Margin="0 2" Background="#FFFFD812" CornerRadius="1" Height="2" />
+                        <Border x:Name="SettingsUnderscoore" Visibility="Hidden" Width="26" Margin="0 4" Background="#FFFFD812" CornerRadius="1" Height="2" />
                     </StackPanel>
                 </StackPanel>
             </Border>
