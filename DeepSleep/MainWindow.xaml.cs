@@ -159,6 +159,7 @@ namespace DeepSleep
             {
                 tb.Text = "0" + tb.Text;
             }
+            SaveSettings();
         }
         public void AddTime(int minutes)
         {
