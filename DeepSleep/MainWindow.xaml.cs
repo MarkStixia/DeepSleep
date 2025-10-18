@@ -78,7 +78,7 @@ namespace DeepSleep
         {
             if (settings["PowerOn"] == "On")
             {
-                string timeNow = DateTime.Now.ToString("HH:mm");
+                string timeNow = DateTime.Now.AddMinutes(-additionalTime).ToString("HH:mm");
                 if (timeNow != lastTime)
                 {
                     lastTime = "";
