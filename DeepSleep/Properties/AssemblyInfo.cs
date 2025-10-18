@@ -10,7 +10,7 @@ using System.Windows;
 [assembly: AssemblyTitle("DeepSleep")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("")]
+[assembly: AssemblyCompany("MarkStixia")]
 [assembly: AssemblyProduct("DeepSleep")]
 [assembly: AssemblyCopyright("Copyright ©  2025")]
 [assembly: AssemblyTrademark("")]
