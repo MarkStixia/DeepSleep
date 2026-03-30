@@ -1,19 +1,20 @@
-﻿using System;
-using System.Windows;
-using System.Windows.Input;
-using System.Windows.Forms;
-using System.ComponentModel;
-using System.Timers;
+﻿using Microsoft.Win32;
+using System;
 using System.Collections.Generic;
-using System.IO;
+using System.ComponentModel;
 using System.Diagnostics;
-using System.Text;
-using Microsoft.Win32;
-using System.Reflection;
 using System.Drawing;
-using System.Windows.Media.Imaging;
-using System.Windows.Media;
+using System.IO;
+using System.Reflection;
+using System.Security.Cryptography;
+using System.Text;
 using System.Text.RegularExpressions;
+using System.Timers;
+using System.Windows;
+using System.Windows.Forms;
+using System.Windows.Input;
+using System.Windows.Media;
+using System.Windows.Media.Imaging;
 
 namespace DeepSleep
 {
@@ -233,24 +234,21 @@ namespace DeepSleep
 
             return values;
         }
-        private void ChangeModeRB(int mode)
+        private void ChangeModeRB(System.Windows.Controls.TextBlock[] deactivateTB, System.Windows.Controls.TextBlock activeTB, System.Windows.Controls.Border[] deactivateCheck, System.Windows.Controls.Border activeCheck)
         {
             SolidColorBrush activeColor = new SolidColorBrush(System.Windows.Media.Color.FromArgb(255, 255, 216, 18));
-            SolidColorBrush whiteColor = new SolidColorBrush(System.Windows.Media.Color.FromArgb(255, 255, 216, 18));
-            if (mode == 0)
+            SolidColorBrush whiteColor = new SolidColorBrush(System.Windows.Media.Color.FromArgb(255, 255, 255, 255));
+            foreach (System.Windows.Controls.TextBlock tb in deactivateTB)
             {
-                HibernationTB.Foreground = activeColor;
-                ShutdownTB.Foreground = whiteColor;
-                ShutdownModeCB.Visibility = Visibility.Hidden;
-                HibModeCB.Visibility = Visibility.Visible;
+                tb.Foreground = whiteColor;
             }
-            else
+            activeTB.Foreground = activeColor;
+
+            foreach (System.Windows.Controls.Border check in deactivateCheck)
             {
-                HibernationTB.Foreground = whiteColor;
-                ShutdownTB.Foreground = activeColor;
-                ShutdownModeCB.Visibility = Visibility.Visible;
-                HibModeCB.Visibility = Visibility.Collapsed;
+                check.Visibility = Visibility.Collapsed;
             }
+            activeCheck.Visibility = Visibility.Visible;
         }
         private void SetSettings(Dictionary<string, string> settingsDictionary)
         {
@@ -264,7 +262,10 @@ namespace DeepSleep
             if (settingsDictionary.TryGetValue("PowerOffMode", out string readSelectedPowerOffMode))
             {
                 int parsedSelectedPowerOffMode = int.Parse(readSelectedPowerOffMode);
-                ChangeModeRB(parsedSelectedPowerOffMode);
+                if (parsedSelectedPowerOffMode == 0)
+                    ChangeModeRB(new[] { HibernationTB, ShutdownTB }, HibernationTB, new[] { HibModeCB, ShutdownModeCB }, HibModeCB);
+                else
+                    ChangeModeRB(new[] { HibernationTB, ShutdownTB }, ShutdownTB, new[] { HibModeCB, ShutdownModeCB }, ShutdownModeCB);
                 selectedPowerOffMode = parsedSelectedPowerOffMode;
             }
             if (settingsDictionary.TryGetValue("TrayStart", out string readTrayStart))
@@ -382,16 +383,10 @@ namespace DeepSleep
             }
             if (settingsDictionary.TryGetValue("TimerMode", out string readTimerMode))
             {
-                HybernationTimerRB.BorderBrush = new SolidColorBrush(System.Windows.Media.Color.FromArgb(0, 255, 216, 18));
-                ShutdownTimerRB.BorderBrush = new SolidColorBrush(System.Windows.Media.Color.FromArgb(0, 255, 216, 18));
-                if (readTimerMode == "0")
-                {
-                    HybernationTimerRB.BorderBrush = new SolidColorBrush(System.Windows.Media.Color.FromArgb(255, 255, 216, 18));
-                }
+                if (int.Parse(readTimerMode) == 0)
+                    ChangeModeRB(new[] { HibModeTimerTB, ShutdownModeTimerTB }, HibModeTimerTB, new[] { HibModeTimerCB, ShutdownModeTimerCB }, HibModeTimerCB);
                 else
-                {
-                    ShutdownTimerRB.BorderBrush = new SolidColorBrush(System.Windows.Media.Color.FromArgb(255, 255, 216, 18));
-                }
+                    ChangeModeRB(new[] { HibModeTimerTB, ShutdownModeTimerTB }, ShutdownModeTimerTB, new[] { HibModeTimerCB, ShutdownModeTimerCB }, ShutdownModeTimerCB);
             }
             contextMenu = new ContextMenu();
             MenuItem ExpandMenuItem = new MenuItem("Развернуть", Expand);
@@ -588,7 +583,7 @@ namespace DeepSleep
             isDelayedTimerPaused = false;
         }
 
-        private void HybernationTimerRB_Checked(object sender, RoutedEventArgs e)
+        private void HibernationTimerRB_Checked(object sender, RoutedEventArgs e)
         {
             if (settings.Count > 0)
             {
@@ -596,17 +591,10 @@ namespace DeepSleep
                 selectedTimerMode = uid;
                 if (settings["TimerMode"] != uid.ToString())
                     SaveSettings();
-                switch (uid)
-                {
-                    case 0:
-                        HybernationTimerRB.BorderBrush = new SolidColorBrush(System.Windows.Media.Color.FromArgb(255, 255, 216, 18));
-                        ShutdownTimerRB.BorderBrush = new SolidColorBrush(System.Windows.Media.Color.FromArgb(0, 255, 216, 18));
-                        break;
-                    case 1:
-                        HybernationTimerRB.BorderBrush = new SolidColorBrush(System.Windows.Media.Color.FromArgb(0, 255, 216, 18));
-                        ShutdownTimerRB.BorderBrush = new SolidColorBrush(System.Windows.Media.Color.FromArgb(255, 255, 216, 18));
-                        break;
-                }
+                if (uid == 0)
+                    ChangeModeRB(new[] { HibModeTimerTB, ShutdownModeTimerTB }, HibModeTimerTB, new[] { HibModeTimerCB, ShutdownModeTimerCB }, HibModeTimerCB);
+                else
+                    ChangeModeRB(new[] { HibModeTimerTB, ShutdownModeTimerTB }, ShutdownModeTimerTB, new[] { HibModeTimerCB, ShutdownModeTimerCB }, ShutdownModeTimerCB);
             }
         }
         private void StartTimerButton_Click(object sender, RoutedEventArgs e)
@@ -684,7 +672,10 @@ namespace DeepSleep
                 selectedPowerOffMode = uid;
                 if (settings["PowerOffMode"] != uid.ToString())
                     SaveSettings();
-                ChangeModeRB(uid);
+                if (uid == 0)
+                    ChangeModeRB(new[] { HibernationTB, ShutdownTB }, HibernationTB, new[] { HibModeCB, ShutdownModeCB }, HibModeCB);
+                else
+                    ChangeModeRB(new[] { HibernationTB, ShutdownTB }, ShutdownTB, new[] { HibModeCB, ShutdownModeCB }, ShutdownModeCB);
 
             }
         }
