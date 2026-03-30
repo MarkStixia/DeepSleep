@@ -13,6 +13,7 @@ namespace DeepSleep
         private MainWindow mainWindow;
         private int windowCloseTime;
 
+        #region Main logic
         /// <param name="buttons">1 - кнопки добавления времени, 2 - да/нет, 3 - ок</param>
         /// <param name="closeTime">Время через которое закроется окно (сек)</param>
         public NotificationWindow(string title, int closeTime, byte buttons, MainWindow main)
@@ -44,16 +45,12 @@ namespace DeepSleep
                 }
             }
         }
-
-        private async void DelayClose()
-        {
-            await Task.Delay((int)(windowCloseTime * 1000 * 0.93f));
-            FadeClose();
-        }
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
             FadeAnimation(true);
         }
+        #endregion
+        #region Animations
         private void FadeAnimation(bool show)
         {
             double screenWidth = SystemParameters.PrimaryScreenWidth;
@@ -94,6 +91,20 @@ namespace DeepSleep
             BeginAnimation(Window.TopProperty, animY);
             BeginAnimation(Window.OpacityProperty, animOpacity);
         }
+        private async void DelayClose()
+        {
+            await Task.Delay((int)(windowCloseTime * 1000 * 0.93f));
+            FadeClose();
+        }
+        private async void FadeClose()
+        {
+            FadeAnimation(false);
+            await Task.Delay(700);
+            Close();
+        }
+
+        #endregion
+        #region Buttons Logic
         private void Window_MouseRightButtonUp(object sender, MouseButtonEventArgs e)
         {
             FadeClose();
@@ -110,13 +121,6 @@ namespace DeepSleep
         {
             FadeClose();
         }
-        private async void FadeClose()
-        {
-            FadeAnimation(false);
-            await Task.Delay(700);
-            Close();
-        }
-
         private void YesNoClick(object sender, RoutedEventArgs e)
         {
             string uId = ((Button)sender).Uid;
@@ -132,5 +136,7 @@ namespace DeepSleep
                 FadeClose();
             }
         }
+
+        #endregion
     }
 }
