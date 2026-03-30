@@ -233,6 +233,25 @@ namespace DeepSleep
 
             return values;
         }
+        private void ChangeModeRB(int mode)
+        {
+            SolidColorBrush activeColor = new SolidColorBrush(System.Windows.Media.Color.FromArgb(255, 255, 216, 18));
+            SolidColorBrush whiteColor = new SolidColorBrush(System.Windows.Media.Color.FromArgb(255, 255, 216, 18));
+            if (mode == 0)
+            {
+                HibernationTB.Foreground = activeColor;
+                ShutdownTB.Foreground = whiteColor;
+                ShutdownModeCB.Visibility = Visibility.Hidden;
+                HibModeCB.Visibility = Visibility.Visible;
+            }
+            else
+            {
+                HibernationTB.Foreground = whiteColor;
+                ShutdownTB.Foreground = activeColor;
+                ShutdownModeCB.Visibility = Visibility.Visible;
+                HibModeCB.Visibility = Visibility.Collapsed;
+            }
+        }
         private void SetSettings(Dictionary<string, string> settingsDictionary)
         {
             if (settingsDictionary.TryGetValue("TimeBox", out string readTimeBox))
@@ -245,17 +264,7 @@ namespace DeepSleep
             if (settingsDictionary.TryGetValue("PowerOffMode", out string readSelectedPowerOffMode))
             {
                 int parsedSelectedPowerOffMode = int.Parse(readSelectedPowerOffMode);
-                switch (parsedSelectedPowerOffMode)
-                {
-                    case 0:
-                        HybernationRB.BorderBrush = new SolidColorBrush(System.Windows.Media.Color.FromArgb(255, 255, 216, 18));
-                        ShutdownRB.BorderBrush = new SolidColorBrush(System.Windows.Media.Color.FromArgb(0, 255, 216, 18));
-                        break;
-                    case 1:
-                        HybernationRB.BorderBrush = new SolidColorBrush(System.Windows.Media.Color.FromArgb(0, 255, 216, 18));
-                        ShutdownRB.BorderBrush = new SolidColorBrush(System.Windows.Media.Color.FromArgb(255, 255, 216, 18));
-                        break;
-                }
+                ChangeModeRB(parsedSelectedPowerOffMode);
                 selectedPowerOffMode = parsedSelectedPowerOffMode;
             }
             if (settingsDictionary.TryGetValue("TrayStart", out string readTrayStart))
@@ -667,7 +676,7 @@ namespace DeepSleep
             }
         }
 
-        private void HybernationRB_Checked(object sender, MouseButtonEventArgs e)
+        private void HibernationTB_Checked(object sender, MouseButtonEventArgs e)
         {
             if (settings.Count > 0)
             {
@@ -675,17 +684,7 @@ namespace DeepSleep
                 selectedPowerOffMode = uid;
                 if (settings["PowerOffMode"] != uid.ToString())
                     SaveSettings();
-                switch (uid)
-                {
-                    case 0:
-                        HybernationRB.BorderBrush = new SolidColorBrush(System.Windows.Media.Color.FromArgb(255, 255, 216, 18));
-                        ShutdownRB.BorderBrush = new SolidColorBrush(System.Windows.Media.Color.FromArgb(0, 255, 216, 18));
-                        break;
-                    case 1:
-                        HybernationRB.BorderBrush = new SolidColorBrush(System.Windows.Media.Color.FromArgb(0, 255, 216, 18));
-                        ShutdownRB.BorderBrush = new SolidColorBrush(System.Windows.Media.Color.FromArgb(255, 255, 216, 18));
-                        break;
-                }
+                ChangeModeRB(uid);
 
             }
         }
